@@ -1,0 +1,1010 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>自行车工程工具集 - 专业设计计算平台</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* 
+        * 基础样式设置
+        * 您可以修改颜色变量来更改网站主题
+        */
+        :root {
+            --primary: #1a365d;
+            --secondary: #2a69ac;
+            --accent: #38b2ac;
+            --light: #f8fafc;
+            --dark: #2d3748;
+            --text: #2d3748;
+            --background: #f7fafc;
+            --card-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+            --header-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Montserrat', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text);
+            background-color: var(--background);
+            padding: 0;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* 头部样式 - 修改logo和标题在这里 */
+        header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 25px 0;
+            margin-bottom: 40px;
+            box-shadow: var(--header-shadow);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        header::before {
+            content: "";
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 100%;
+            height: 200%;
+            background: rgba(255, 255, 255, 0.1);
+            transform: rotate(30deg);
+        }
+        
+        .header-content {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .logo i {
+            font-size: 3rem;
+            margin-right: 15px;
+            color: white;
+        }
+        
+        .logo h1 {
+            font-size: 2.8rem;
+            font-weight: 700;
+            margin: 0;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        .tagline {
+            font-size: 1.3rem;
+            opacity: 0.9;
+            margin-bottom: 25px;
+            max-width: 600px;
+        }
+        
+        .search-bar {
+            max-width: 600px;
+            width: 100%;
+            margin: 0 auto 15px;
+            position: relative;
+        }
+        
+        .search-bar input {
+            width: 100%;
+            padding: 16px 25px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+        }
+        
+        .search-bar input:focus {
+            outline: none;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        .search-bar button {
+            position: absolute;
+            right: 5px;
+            top: 5px;
+            background: var(--accent);
+            border: none;
+            border-radius: 50%;
+            width: 44px;
+            height: 44px;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .search-bar button:hover {
+            background: #2c9c96;
+            transform: scale(1.05);
+        }
+        
+        /* 移动端导航菜单 */
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            position: absolute;
+            top: 20px;
+            left: 20px;
+        }
+        
+        /* 分类导航 - 修改分类在这里 */
+        .category-nav {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 40px;
+            gap: 15px;
+        }
+        
+        .category-btn {
+            padding: 12px 25px;
+            background: white;
+            border: none;
+            border-radius: 30px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: var(--card-shadow);
+        }
+        
+        .category-btn:hover {
+            background: var(--accent);
+            color: white;
+            transform: translateY(-3px);
+        }
+        
+        .category-btn.active {
+            background: var(--secondary);
+            color: white;
+        }
+        
+        /* 工具网格 - 修改工具卡片在这里 */
+        .tools-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+        
+        .section-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary);
+            position: relative;
+            padding-bottom: 10px;
+        }
+        
+        .section-title::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 60px;
+            height: 4px;
+            background: var(--accent);
+            border-radius: 2px;
+        }
+        
+        .tool-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 30px;
+            margin-bottom: 50px;
+        }
+        
+        .tool-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            transition: all 0.3s;
+            box-shadow: var(--card-shadow);
+            position: relative;
+        }
+        
+        .tool-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.15);
+        }
+        
+        .tool-image {
+            height: 200px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #f0f4f8;
+            position: relative;
+        }
+        
+        .tool-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+        
+        .tool-card:hover .tool-image img {
+            transform: scale(1.05);
+        }
+        
+        .tool-badge {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background: var(--accent);
+            color: white;
+            padding: 6px 15px;
+            border-radius: 30px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            z-index: 2;
+        }
+        
+        .tool-content {
+            padding: 25px;
+        }
+        
+        .tool-title {
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: var(--primary);
+        }
+        
+        .tool-desc {
+            color: #718096;
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+        
+        .tool-meta {
+            display: flex;
+            justify-content: space-between;
+            color: #a0aec0;
+            font-size: 0.9rem;
+            margin-bottom: 25px;
+        }
+        
+        .tool-link {
+            display: block;
+            width: 100%;
+            padding: 14px;
+            background: var(--secondary);
+            color: white;
+            text-align: center;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+        
+        .tool-link:hover {
+            background: var(--primary);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        /* 工具展示区 - 修改工具页面在这里 */
+        .tool-display-container {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: white;
+            z-index: 1000;
+            flex-direction: column;
+        }
+        
+        .tool-display-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            background: var(--primary);
+            color: white;
+        }
+        
+        .tool-display-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+        
+        .close-tool {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            color: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+        
+        .close-tool:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.1);
+        }
+        
+        .tool-display-content {
+            flex: 1;
+            width: 100%;
+            border: none;
+        }
+        
+        /* 广告区域 - 修改广告在这里 */
+        .ad-container {
+            width: 100%;
+            margin: 50px 0;
+            padding: 20px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: var(--card-shadow);
+            text-align: center;
+        }
+        
+        .ad-title {
+            font-size: 1.2rem;
+            color: var(--primary);
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+        
+        .ad-content {
+            max-width: 100%;
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 0 auto;
+        }
+        
+        .ad-content a {
+            display: block;
+            width: 100%;
+        }
+        
+        .ad-content img {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+            transition: transform 0.3s;
+        }
+        
+        .ad-content img:hover {
+            transform: scale(1.02);
+        }
+        
+        /* 联系我们区域 - 修改联系方式在这里 */
+        .contact-section {
+            background: white;
+            border-radius: 15px;
+            padding: 40px;
+            margin: 50px 0;
+            box-shadow: var(--card-shadow);
+        }
+        
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        
+        .contact-card {
+            background: var(--light);
+            border-radius: 10px;
+            padding: 25px;
+            text-align: center;
+        }
+        
+        .contact-icon {
+            font-size: 2.5rem;
+            color: var(--secondary);
+            margin-bottom: 15px;
+        }
+        
+        .contact-title {
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+            color: var(--primary);
+        }
+        
+        .contact-info {
+            color: #718096;
+            margin-bottom: 20px;
+        }
+        
+        .contact-btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background: var(--secondary);
+            color: white;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        
+        .contact-btn:hover {
+            background: var(--primary);
+            transform: translateY(-2px);
+        }
+        
+        /* 页脚 - 修改页脚信息在这里 */
+        footer {
+            background: var(--primary);
+            color: white;
+            padding: 40px 0;
+            margin-top: 50px;
+        }
+        
+        .footer-content {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 30px;
+        }
+        
+        .footer-section {
+            flex: 1;
+            min-width: 250px;
+        }
+        
+        .footer-title {
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+        
+        .footer-title::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 40px;
+            height: 3px;
+            background: var(--accent);
+        }
+        
+        .footer-links a {
+            display: block;
+            color: #cbd5e0;
+            margin-bottom: 10px;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-links a:hover {
+            color: white;
+        }
+        
+        .footer-bottom {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #2d3748;
+            color: #cbd5e0;
+        }
+        
+        /* 响应式设计 - 移动端适配 */
+        @media (max-width: 1024px) {
+            .tool-grid {
+                grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            .category-nav {
+                display: none;
+                flex-direction: column;
+                align-items: center;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background: white;
+                padding: 20px;
+                box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+                z-index: 100;
+            }
+            
+            .category-nav.active {
+                display: flex;
+            }
+            
+            .category-btn {
+                width: 100%;
+                justify-content: center;
+                margin-bottom: 10px;
+            }
+            
+            .logo h1 {
+                font-size: 2.2rem;
+            }
+            
+            .tagline {
+                font-size: 1.1rem;
+            }
+            
+            .tools-header {
+                flex-direction: column;
+                gap: 20px;
+                align-items: flex-start;
+            }
+            
+            .footer-content {
+                flex-direction: column;
+            }
+            
+            .contact-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .logo {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .logo i {
+                margin-right: 0;
+                margin-bottom: 10px;
+            }
+            
+            .tool-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .section-title {
+                font-size: 1.7rem;
+            }
+            
+            .contact-section {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <button class="mobile-menu-btn" id="mobileMenuBtn">
+            <i class="fas fa-bars"></i>
+        </button>
+        
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-bicycle"></i>
+                    <h1>自行车工程工具集</h1>
+                </div>
+                <p class="tagline">专业级自行车设计与工程计算平台</p>
+                
+                <div class="search-bar">
+                    <input type="text" placeholder="搜索工具...">
+                    <button><i class="fas fa-search"></i></button>
+                </div>
+            </div>
+        </div>
+    </header>
+    
+    <div class="container">
+        <div class="category-nav" id="categoryNav">
+            <button class="category-btn active" data-category="all">
+                <i class="fas fa-th"></i> 所有工具
+            </button>
+            <button class="category-btn" data-category="design">
+                <i class="fas fa-pencil-ruler"></i> 设计与几何
+            </button>
+            <button class="category-btn" data-category="mechanical">
+                <i class="fas fa-cogs"></i> 机械计算
+            </button>
+            <button class="category-btn" data-category="material">
+                <i class="fas fa-weight-hanging"></i> 材料分析
+            </button>
+            <button class="category-btn" data-category="performance">
+                <i class="fas fa-tachometer-alt"></i> 性能模拟
+            </button>
+        </div>
+        
+        <div class="tools-header">
+            <h2 class="section-title">专业工具库</h2>
+        </div>
+        
+        <div class="tool-grid">
+            <!-- 工具卡片示例 - 修改工具卡片在这里 -->
+            <!-- 复制这个div块来添加新工具 -->
+            <div class="tool-card" data-category="design">
+                <div class="tool-badge">热门</div>
+                <div class="tool-image">
+                    <img src="https://placehold.co/600x400/3498db/white?text=几何计算" alt="车架几何计算器">
+                </div>
+                <div class="tool-content">
+                    <h3 class="tool-title">车架几何计算器</h3>
+                    <p class="tool-desc">计算自行车车架的关键几何参数，如Stack、Reach、轴距等</p>
+                    <div class="tool-meta">
+                        <span>使用次数: 1,243</span>
+                    </div>
+                    <button class="tool-link" data-tool="geometry.html" data-title="车架几何计算器">使用工具</button>
+                </div>
+            </div>
+            
+            <div class="tool-card" data-category="design">
+                <div class="tool-image">
+                    <img src="https://placehold.co/600x400/e74c3c/white?text=3D配置器" alt="3D自行车配置器">
+                </div>
+                <div class="tool-content">
+                    <h3 class="tool-title">3D自行车配置器</h3>
+                    <p class="tool-desc">可视化组装和调整自行车设计，实时查看更改效果</p>
+                    <div class="tool-meta">
+                        <span>使用次数: 856</span>
+                    </div>
+                    <button class="tool-link" data-tool="configurator.html" data-title="3D自行车配置器">使用工具</button>
+                </div>
+            </div>
+            
+            <div class="tool-card" data-category="mechanical">
+                <div class="tool-badge">新品</div>
+                <div class="tool-image">
+                    <img src="https://placehold.co/600x400/2ecc71/white?text=传动计算" alt="传动比分析器">
+                </div>
+                <div class="tool-content">
+                    <h3 class="tool-title">传动比分析器</h3>
+                    <p class="tool-desc">计算不同齿比下的速度、踏频关系，优化传动系统设计</p>
+                    <div class="tool-meta">
+                        <span>使用次数: 892</span>
+                    </div>
+                    <button class="tool-link" data-tool="gearing.html" data-title="传动比分析器">使用工具</button>
+                </div>
+            </div>
+            
+            <div class="tool-card" data-category="mechanical">
+                <div class="tool-image">
+                    <img src="https://placehold.co/600x400/9b59b6/white?text=同步带计算" alt="HTD同步带计算">
+                </div>
+                <div class="tool-content">
+                    <h3 class="tool-title">HTD同步带计算</h3>
+                    <p class="tool-desc">计算同步皮带长度和齿数，确定合适的皮带规格</p>
+                    <div class="tool-meta">
+                        <span>使用次数: 567</span>
+                    </div>
+                    <button class="tool-link" data-tool="htd-belt.html" data-title="HTD同步带计算">使用工具</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 广告区域 - 修改广告在这里 -->
+        <div class="ad-container">
+            <div class="ad-title">赞助商广告</div>
+            <div class="ad-content">
+                <a href="https://example.com" target="_blank">
+                    <!-- 替换下面的图片链接为您的广告图片 -->
+                    <img src="https://placehold.co/800x200/38b2ac/white?text=广告位+支持动态图片" alt="赞助商广告">
+                </a>
+            </div>
+        </div>
+        
+        <div class="tools-header">
+            <h2 class="section-title">更多工具</h2>
+        </div>
+        
+        <div class="tool-grid">
+            <div class="tool-card" data-category="material">
+                <div class="tool-image">
+                    <img src="https://placehold.co/600x400/f39c12/white?text=材料强度" alt="材料强度计算器">
+                </div>
+                <div class="tool-content">
+                    <h3 class="tool-title">材料强度计算器</h3>
+                    <p class="tool-desc">计算车架和零部件的应力分布与安全系数</p>
+                    <div class="tool-meta">
+                        <span>使用次数: 723</span>
+                    </div>
+                    <button class="tool-link" data-tool="material.html" data-title="材料强度计算器">使用工具</button>
+                </div>
+            </div>
+            
+            <div class="tool-card" data-category="performance">
+                <div class="tool-image">
+                    <img src="https://placehold.co/600x400/e74c3c/white?text=性能模拟" alt="性能模拟器">
+                </div>
+                <div class="tool-content">
+                    <h3 class="tool-title">性能模拟器</h3>
+                    <p class="tool-desc">模拟自行车在不同条件下的性能表现，预测速度与功率</p>
+                    <div class="tool-meta">
+                        <span>使用次数: 945</span>
+                    </div>
+                    <button class="tool-link" data-tool="performance.html" data-title="性能模拟器">使用工具</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 联系我们区域 - 修改联系方式在这里 -->
+        <div class="contact-section">
+            <h2 class="section-title">联系我们</h2>
+            <div class="contact-grid">
+                <div class="contact-card">
+                    <div class="contact-icon">
+                        <i class="fab fa-weixin"></i>
+                    </div>
+                    <h3 class="contact-title">微信联系</h3>
+                    <p class="contact-info">添加我们的微信账号获取技术支持</p>
+                    <!-- 替换下面的微信号 -->
+                    <a href="weixin://dl/chat?微信号" class="contact-btn">添加微信</a>
+                </div>
+                
+                <div class="contact-card">
+                    <div class="contact-icon">
+                        <i class="fab fa-qq"></i>
+                    </div>
+                    <h3 class="contact-title">QQ联系</h3>
+                    <p class="contact-info">通过QQ与我们取得联系</p>
+                    <!-- 替换下面的QQ号 -->
+                    <a href="tencent://message/?uin=123456789&Menu=yes" class="contact-btn">联系QQ</a>
+                </div>
+                
+                <div class="contact-card">
+                    <div class="contact-icon">
+                        <i class="fas fa-envelope"></i>
+                    </div>
+                    <h3 class="contact-title">邮件联系</h3>
+                    <p class="contact-info">发送邮件到我们的技术支持邮箱</p>
+                    <!-- 替换下面的邮箱地址 -->
+                    <a href="mailto:support@example.com" class="contact-btn">发送邮件</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 工具展示容器 -->
+    <div class="tool-display-container" id="toolDisplay">
+        <div class="tool-display-header">
+            <div class="tool-display-title" id="toolDisplayTitle">工具名称</div>
+            <button class="close-tool" id="closeTool">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <iframe class="tool-display-content" id="toolFrame" src="about:blank"></iframe>
+    </div>
+    
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3 class="footer-title">关于我们</h3>
+                    <p>我们致力于为自行车行业工程师提供最专业的计算工具和设计资源，助力创新与卓越设计。</p>
+                </div>
+                
+                <div class="footer-section">
+                    <h3 class="footer-title">快速链接</h3>
+                    <div class="footer-links">
+                        <a href="#">工具目录</a>
+                        <a href="#">使用教程</a>
+                        <a href="#">更新日志</a>
+                        <a href="#">联系我们</a>
+                    </div>
+                </div>
+                
+                <div class="footer-section">
+                    <h3 class="footer-title">合作伙伴</h3>
+                    <div class="footer-links">
+                        <a href="#">广告合作</a>
+                        <a href="#">API接口</a>
+                        <a href="#">成为affiliate</a>
+                        <a href="#">工具提交</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>© 2023 自行车工程工具集 | 专业级自行车设计与工程计算平台</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // 工具数据 - 您可以在这里添加或修改工具信息
+        const tools = [
+            {
+                id: 1,
+                title: "车架几何计算器",
+                category: "design",
+                description: "计算自行车车架的关键几何参数，如Stack、Reach、轴距等",
+                image: "https://placehold.co/600x400/3498db/white?text=几何计算",
+                link: "geometry.html",
+                uses: 1243,
+                featured: true,
+                badge: "热门"
+            },
+            {
+                id: 2,
+                title: "3D自行车配置器",
+                category: "design",
+                description: "可视化组装和调整自行车设计，实时查看更改效果",
+                image: "https://placehold.co/600x400/e74c3c/white?text=3D配置器",
+                link: "configurator.html",
+                uses: 856
+            },
+            {
+                id: 3,
+                title: "传动比分析器",
+                category: "mechanical",
+                description: "计算不同齿比下的速度、踏频关系，优化传动系统设计",
+                image: "https://placehold.co/600x400/2ecc71/white?text=传动计算",
+                link: "gearing.html",
+                uses: 892,
+                featured: true,
+                badge: "新品"
+            },
+            {
+                id: 4,
+                title: "HTD同步带计算",
+                category: "mechanical",
+                description: "计算同步皮带长度和齿数，确定合适的皮带规格",
+                image: "https://placehold.co/600x400/9b59b6/white?text=同步带计算",
+                link: "htd-belt.html",
+                uses: 567
+            },
+            {
+                id: 5,
+                title: "材料强度计算器",
+                category: "material",
+                description: "计算车架和零部件的应力分布与安全系数",
+                image: "https://placehold.co/600x400/f39c12/white?text=材料强度",
+                link: "material.html",
+                uses: 723
+            },
+            {
+                id: 6,
+                title: "性能模拟器",
+                category: "performance",
+                description: "模拟自行车在不同条件下的性能表现，预测速度与功率",
+                image: "https://placehold.co/600x400/e74c3c/white?text=性能模拟",
+                link: "performance.html",
+                uses: 945
+            }
+        ];
+
+        // 初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            // 移动端菜单
+            const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+            const categoryNav = document.getElementById('categoryNav');
+            
+            mobileMenuBtn.addEventListener('click', function() {
+                categoryNav.classList.toggle('active');
+            });
+            
+            // 分类过滤功能
+            const categoryButtons = document.querySelectorAll('.category-btn');
+            const toolCards = document.querySelectorAll('.tool-card');
+            
+            categoryButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    // 移除所有按钮的active类
+                    categoryButtons.forEach(btn => btn.classList.remove('active'));
+                    // 为当前点击的按钮添加active类
+                    this.classList.add('active');
+                    
+                    const category = this.getAttribute('data-category');
+                    
+                    // 显示或隐藏工具卡片
+                    toolCards.forEach(card => {
+                        if (category === 'all' || card.getAttribute('data-category') === category) {
+                            card.style.display = 'block';
+                        } else {
+                            card.style.display = 'none';
+                        }
+                    });
+                    
+                    // 在移动端选择后关闭菜单
+                    if (window.innerWidth <= 768) {
+                        categoryNav.classList.remove('active');
+                    }
+                });
+            });
+            
+            // 搜索功能
+            const searchInput = document.querySelector('.search-bar input');
+            const searchButton = document.querySelector('.search-bar button');
+            
+            searchButton.addEventListener('click', performSearch);
+            searchInput.addEventListener('keyup', function(event) {
+                if (event.key === 'Enter') {
+                    performSearch();
+                }
+            });
+            
+            function performSearch() {
+                const searchTerm = searchInput.value.toLowerCase();
+                
+                toolCards.forEach(card => {
+                    const title = card.querySelector('.tool-title').textContent.toLowerCase();
+                    const description = card.querySelector('.tool-desc').textContent.toLowerCase();
+                    
+                    if (title.includes(searchTerm) || description.includes(searchTerm)) {
+                        card.style.display = 'block';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            }
+            
+            // 工具展示功能
+            const toolDisplay = document.getElementById('toolDisplay');
+            const toolFrame = document.getElementById('toolFrame');
+            const toolDisplayTitle = document.getElementById('toolDisplayTitle');
+            const closeTool = document.getElementById('closeTool');
+            const toolLinks = document.querySelectorAll('.tool-link');
+            
+            // 打开工具
+            toolLinks.forEach(link => {
+                link.addEventListener('click', function() {
+                    const toolUrl = this.getAttribute('data-tool');
+                    const toolTitle = this.getAttribute('data-title');
+                    
+                    toolDisplayTitle.textContent = toolTitle;
+                    toolFrame.src = toolUrl;
+                    toolDisplay.style.display = 'flex';
+                    document.body.style.overflow = 'hidden'; // 防止背景滚动
+                });
+            });
+            
+            // 关闭工具
+            closeTool.addEventListener('click', function() {
+                toolDisplay.style.display = 'none';
+                toolFrame.src = 'about:blank';
+                document.body.style.overflow = 'auto'; // 恢复背景滚动
+            });
+            
+            // ESC键关闭工具
+            document.addEventListener('keydown', function(event) {
+                if (event.key === 'Escape' && toolDisplay.style.display === 'flex') {
+                    toolDisplay.style.display = 'none';
+                    toolFrame.src = 'about:blank';
+                    document.body.style.overflow = 'auto';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
