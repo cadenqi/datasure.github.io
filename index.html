@@ -1,20 +1,20 @@
 <!DOCTYPE html>
- 
-<头>
+<html lang="zh-CN">
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>自行车工程工具集 - 专业设计计算平台</title>
-    <链接 关系="样式表" 链接="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <样式>
-        /*
+    <style>
+        /* 
         * 基础样式设置
         * 您可以修改颜色变量来更改网站主题
-        * /
-        :根目录 {
-            --主要: #1a365d;
-            --次要: #2a69ac;
-            -- accent: #38b2ac;
+        */
+        :root {
+            --primary: #1a365d;
+            --secondary: #2a69ac;
+            --accent: #38b2ac;
             --light: #f8fafc;
             --dark: #2d3748;
             --text: #2d3748;
@@ -23,23 +23,23 @@
             --header-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
         }
         
-
+        * {
             box-sizing: border-box;
-            边距：0;
-            
-        输入：}
+            margin: 0;
+            padding: 0;
+        }
         
-        身体 {
-            字体：'Montserrat'，'Segoe UI'，Tahoma，Geneva，Verdana，无衬线;
-            行高: 1.6;
-            颜色：变量（--文本）;
-            背景颜色：变量（--背景）;
-            
-        输入：}
+        body {
+            font-family: 'Montserrat', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text);
+            background-color: var(--background);
+            padding: 0;
+        }
         
-        .容器 {
-            最大宽度：1400像素;
-            边距：0 自动;
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
             padding: 0 20px;
         }
         
@@ -769,7 +769,7 @@
                     <h3 class="contact-title">微信联系</h3>
                     <p class="contact-info">添加我们的微信账号获取技术支持</p>
                     <!-- 替换下面的微信号 -->
-                    <a href="weixin://dl/chat?13713789367" class="contact-btn">添加微信</a>
+                    <a href="weixin://dl/chat?微信号" class="contact-btn">添加微信</a>
                 </div>
                 
                 <div class="contact-card">
@@ -836,7 +836,7 @@
             </div>
             
             <div class="footer-bottom">
-                <p>© 2025 有数工具箱 | 专业级自行车设计与工程计算平台</p>
+                <p>© 2023 自行车工程工具集 | 专业级自行车设计与工程计算平台</p>
             </div>
         </div>
     </footer>
@@ -1007,5 +1007,4 @@
         });
     </script>
 </body>
-
 </html>
