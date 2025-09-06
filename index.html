@@ -410,26 +410,104 @@
             transform: scale(1.02);
         }
         
-        /* 联系我们区域 - 修改联系方式在这里 */
-        .contact-section {
+        /* 联系我们按钮 */
+        .contact-btn-container {
+            text-align: center;
+            margin: 40px 0;
+        }
+        
+        .contact-main-btn {
+            display: inline-block;
+            padding: 15px 30px;
+            background: var(--accent);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: var(--card-shadow);
+        }
+        
+        .contact-main-btn:hover {
+            background: #2c9c96;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+        }
+        
+        /* 联系我们模态框 */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .modal-content {
             background: white;
             border-radius: 15px;
-            padding: 40px;
-            margin: 50px 0;
-            box-shadow: var(--card-shadow);
+            width: 90%;
+            max-width: 600px;
+            padding: 30px;
+            position: relative;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+        }
+        
+        .modal-close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #718096;
+        }
+        
+        .modal-title {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            color: var(--primary);
+            text-align: center;
+            position: relative;
+            padding-bottom: 10px;
+        }
+        
+        .modal-title::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 3px;
+            background: var(--accent);
         }
         
         .contact-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
         }
         
         .contact-card {
             background: var(--light);
             border-radius: 10px;
-            padding: 25px;
+            padding: 20px;
             text-align: center;
+            transition: all 0.3s;
+        }
+        
+        .contact-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
         }
         
         .contact-icon {
@@ -446,12 +524,12 @@
         
         .contact-info {
             color: #718096;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
         }
         
-        .contact-btn {
+        .contact-action {
             display: inline-block;
-            padding: 10px 20px;
+            padding: 8px 16px;
             background: var(--secondary);
             color: white;
             border-radius: 5px;
@@ -460,9 +538,8 @@
             transition: all 0.3s;
         }
         
-        .contact-btn:hover {
+        .contact-action:hover {
             background: var(--primary);
-            transform: translateY(-2px);
         }
         
         /* 页脚 - 修改页脚信息在这里 */
@@ -579,6 +656,11 @@
             .contact-grid {
                 grid-template-columns: 1fr;
             }
+            
+            .modal-content {
+                width: 95%;
+                padding: 20px;
+            }
         }
         
         @media (max-width: 480px) {
@@ -599,10 +681,6 @@
             .section-title {
                 font-size: 1.7rem;
             }
-            
-            .contact-section {
-                padding: 20px;
-            }
         }
     </style>
 </head>
@@ -616,7 +694,7 @@
             <div class="header-content">
                 <div class="logo">
                     <i class="fas fa-bicycle"></i>
-                    <h1>有数工具箱|心里有数 工程有谱</h1>
+                    <h1>自行车工程工具集</h1>
                 </div>
                 <p class="tagline">专业级自行车设计与工程计算平台</p>
                 
@@ -651,66 +729,9 @@
             <h2 class="section-title">专业工具库</h2>
         </div>
         
-        <div class="tool-grid">
-            <!-- 工具卡片示例 - 修改工具卡片在这里 -->
-            <!-- 复制这个div块来添加新工具 -->
-            <div class="tool-card" data-category="design">
-                <div class="tool-badge">热门</div>
-                <div class="tool-image">
-                    <img src="https://placehold.co/600x400/3498db/white?text=几何计算" alt="车架几何计算器">
-                </div>
-                <div class="tool-content">
-                    <h3 class="tool-title">车架几何计算器</h3>
-                    <p class="tool-desc">计算自行车车架的关键几何参数，如Stack、Reach、轴距等</p>
-                    <div class="tool-meta">
-                        <span>使用次数: 1,243</span>
-                    </div>
-                    <button class="tool-link" data-tool="geometry.html" data-title="车架几何计算器">使用工具</button>
-                </div>
-            </div>
-            
-            <div class="tool-card" data-category="design">
-                <div class="tool-image">
-                    <img src="https://placehold.co/600x400/e74c3c/white?text=3D配置器" alt="3D自行车配置器">
-                </div>
-                <div class="tool-content">
-                    <h3 class="tool-title">3D自行车配置器</h3>
-                    <p class="tool-desc">可视化组装和调整自行车设计，实时查看更改效果</p>
-                    <div class="tool-meta">
-                        <span>使用次数: 856</span>
-                    </div>
-                    <button class="tool-link" data-tool="configurator.html" data-title="3D自行车配置器">使用工具</button>
-                </div>
-            </div>
-            
-            <div class="tool-card" data-category="mechanical">
-                <div class="tool-badge">新品</div>
-                <div class="tool-image">
-                    <img src="https://placehold.co/600x400/2ecc71/white?text=传动计算" alt="传动比分析器">
-                </div>
-                <div class="tool-content">
-                    <h3 class="tool-title">传动比分析器</h3>
-                    <p class="tool-desc">计算不同齿比下的速度、踏频关系，优化传动系统设计</p>
-                    <div class="tool-meta">
-                        <span>使用次数: 892</span>
-                    </div>
-                    <button class="tool-link" data-tool="gearing.html" data-title="传动比分析器">使用工具</button>
-                </div>
-            </div>
-            
-            <div class="tool-card" data-category="mechanical">
-                <div class="tool-image">
-                    <img src="https://placehold.co/600x400/9b59b6/white?text=同步带计算" alt="HTD同步带计算">
-                </div>
-                <div class="tool-content">
-                    <h3 class="tool-title">HTD同步带计算</h3>
-                    <p class="tool-desc">计算同步皮带长度和齿数，确定合适的皮带规格</p>
-                    <div class="tool-meta">
-                        <span>使用次数: 567</span>
-                    </div>
-                    <button class="tool-link" data-tool="htd-belt.html" data-title="HTD同步带计算">使用工具</button>
-                </div>
-            </div>
+        <!-- 工具网格将由JavaScript动态生成 -->
+        <div class="tool-grid" id="toolGrid">
+            <!-- 工具卡片将在这里动态生成 -->
         </div>
         
         <!-- 广告区域 - 修改广告在这里 -->
@@ -728,39 +749,26 @@
             <h2 class="section-title">更多工具</h2>
         </div>
         
-        <div class="tool-grid">
-            <div class="tool-card" data-category="material">
-                <div class="tool-image">
-                    <img src="https://placehold.co/600x400/f39c12/white?text=材料强度" alt="材料强度计算器">
-                </div>
-                <div class="tool-content">
-                    <h3 class="tool-title">材料强度计算器</h3>
-                    <p class="tool-desc">计算车架和零部件的应力分布与安全系数</p>
-                    <div class="tool-meta">
-                        <span>使用次数: 723</span>
-                    </div>
-                    <button class="tool-link" data-tool="material.html" data-title="材料强度计算器">使用工具</button>
-                </div>
-            </div>
-            
-            <div class="tool-card" data-category="performance">
-                <div class="tool-image">
-                    <img src="https://placehold.co/600x400/e74c3c/white?text=性能模拟" alt="性能模拟器">
-                </div>
-                <div class="tool-content">
-                    <h3 class="tool-title">性能模拟器</h3>
-                    <p class="tool-desc">模拟自行车在不同条件下的性能表现，预测速度与功率</p>
-                    <div class="tool-meta">
-                        <span>使用次数: 945</span>
-                    </div>
-                    <button class="tool-link" data-tool="performance.html" data-title="性能模拟器">使用工具</button>
-                </div>
-            </div>
+        <!-- 更多工具网格将由JavaScript动态生成 -->
+        <div class="tool-grid" id="moreToolGrid">
+            <!-- 更多工具卡片将在这里动态生成 -->
         </div>
         
-        <!-- 联系我们区域 - 修改联系方式在这里 -->
-        <div class="contact-section">
-            <h2 class="section-title">联系我们</h2>
+        <!-- 联系我们按钮 -->
+        <div class="contact-btn-container">
+            <button class="contact-main-btn" id="contactMainBtn">
+                <i class="fas fa-envelope"></i> 联系我们
+            </button>
+        </div>
+    </div>
+    
+    <!-- 联系我们模态框 -->
+    <div class="modal-overlay" id="contactModal">
+        <div class="modal-content">
+            <button class="modal-close" id="modalClose">
+                <i class="fas fa-times"></i>
+            </button>
+            <h2 class="modal-title">联系我们</h2>
             <div class="contact-grid">
                 <div class="contact-card">
                     <div class="contact-icon">
@@ -769,7 +777,7 @@
                     <h3 class="contact-title">微信联系</h3>
                     <p class="contact-info">添加我们的微信账号获取技术支持</p>
                     <!-- 替换下面的微信号 -->
-                    <a href="weixin://dl/chat?微信号" class="contact-btn">添加微信</a>
+                    <a href="weixin://dl/chat?BikeTechSupport" class="contact-action">添加微信</a>
                 </div>
                 
                 <div class="contact-card">
@@ -779,7 +787,7 @@
                     <h3 class="contact-title">QQ联系</h3>
                     <p class="contact-info">通过QQ与我们取得联系</p>
                     <!-- 替换下面的QQ号 -->
-                    <a href="tencent://message/?uin=123456789&Menu=yes" class="contact-btn">联系QQ</a>
+                    <a href="tencent://message/?uin=123456789&Menu=yes" class="contact-action">联系QQ</a>
                 </div>
                 
                 <div class="contact-card">
@@ -789,7 +797,17 @@
                     <h3 class="contact-title">邮件联系</h3>
                     <p class="contact-info">发送邮件到我们的技术支持邮箱</p>
                     <!-- 替换下面的邮箱地址 -->
-                    <a href="mailto:support@example.com" class="contact-btn">发送邮件</a>
+                    <a href="mailto:support@biketools.com" class="contact-action">发送邮件</a>
+                </div>
+                
+                <div class="contact-card">
+                    <div class="contact-icon">
+                        <i class="fas fa-phone"></i>
+                    </div>
+                    <h3 class="contact-title">电话咨询</h3>
+                    <p class="contact-info">工作日 9:00-18:00</p>
+                    <!-- 替换下面的电话号码 -->
+                    <a href="tel:+8612345678910" class="contact-action">拨打热线</a>
                 </div>
             </div>
         </div>
@@ -820,7 +838,7 @@
                         <a href="#">工具目录</a>
                         <a href="#">使用教程</a>
                         <a href="#">更新日志</a>
-                        <a href="#">联系我们</a>
+                        <a href="#" id="footerContactLink">联系我们</a>
                     </div>
                 </div>
                 
@@ -836,14 +854,27 @@
             </div>
             
             <div class="footer-bottom">
-                <p>© 2025 有数工具箱 | 专业级自行车设计与工程计算平台</p>
+                <p>© 2023 自行车工程工具集 | 专业级自行车设计与工程计算平台</p>
             </div>
         </div>
     </footer>
 
     <script>
-        // 工具数据 - 您可以在这里添加或修改工具信息
-        const tools = [
+        // ==================== 工具数据配置区域 - 在这里修改工具信息 ====================
+        // 您可以在这里添加、删除或修改工具信息
+        // 格式说明:
+        // - id: 工具的唯一标识（数字）
+        // - title: 工具名称
+        // - category: 工具分类（design-设计与几何, mechanical-机械计算, material-材料分析, performance-性能模拟）
+        // - description: 工具描述
+        // - image: 工具图片链接
+        // - link: 工具页面链接（可以是外部链接或内部页面）
+        // - uses: 使用次数（数字）
+        // - featured: 是否在推荐区域显示（true/false）
+        // - badge: 徽章文字（可选，如"热门"、"新品"）
+        
+        const toolsData = [
+            // 推荐工具（将在顶部显示）
             {
                 id: 1,
                 title: "车架几何计算器",
@@ -857,15 +888,6 @@
             },
             {
                 id: 2,
-                title: "3D自行车配置器",
-                category: "design",
-                description: "可视化组装和调整自行车设计，实时查看更改效果",
-                image: "https://placehold.co/600x400/e74c3c/white?text=3D配置器",
-                link: "configurator.html",
-                uses: 856
-            },
-            {
-                id: 3,
                 title: "传动比分析器",
                 category: "mechanical",
                 description: "计算不同齿比下的速度、踏频关系，优化传动系统设计",
@@ -875,6 +897,18 @@
                 featured: true,
                 badge: "新品"
             },
+            
+            // 普通工具
+            {
+                id: 3,
+                title: "3D自行车配置器",
+                category: "design",
+                description: "可视化组装和调整自行车设计，实时查看更改效果",
+                image: "https://placehold.co/600x400/e74c3c/white?text=3D配置器",
+                link: "configurator.html",
+                uses: 856,
+                featured: false
+            },
             {
                 id: 4,
                 title: "HTD同步带计算",
@@ -882,7 +916,8 @@
                 description: "计算同步皮带长度和齿数，确定合适的皮带规格",
                 image: "https://placehold.co/600x400/9b59b6/white?text=同步带计算",
                 link: "htd-belt.html",
-                uses: 567
+                uses: 567,
+                featured: false
             },
             {
                 id: 5,
@@ -891,7 +926,8 @@
                 description: "计算车架和零部件的应力分布与安全系数",
                 image: "https://placehold.co/600x400/f39c12/white?text=材料强度",
                 link: "material.html",
-                uses: 723
+                uses: 723,
+                featured: false
             },
             {
                 id: 6,
@@ -900,12 +936,37 @@
                 description: "模拟自行车在不同条件下的性能表现，预测速度与功率",
                 image: "https://placehold.co/600x400/e74c3c/white?text=性能模拟",
                 link: "performance.html",
-                uses: 945
+                uses: 945,
+                featured: false
+            },
+            {
+                id: 7,
+                title: "重量分布分析",
+                category: "material",
+                description: "分析自行车各部件的重量分布，优化平衡性",
+                image: "https://placehold.co/600x400/1abc9c/white?text=重量分析",
+                link: "weight.html",
+                uses: 432,
+                featured: false
+            },
+            {
+                id: 8,
+                title: "空气动力学分析",
+                category: "performance",
+                description: "估算不同设计条件下的空气阻力与性能影响",
+                image: "https://placehold.co/600x400/3498db/white?text=空气动力学",
+                link: "aero.html",
+                uses: 678,
+                featured: false
             }
         ];
+        // ==================== 工具数据配置区域结束 ====================
 
         // 初始化
         document.addEventListener('DOMContentLoaded', function() {
+            // 渲染工具卡片
+            renderTools();
+            
             // 移动端菜单
             const mobileMenuBtn = document.getElementById('mobileMenuBtn');
             const categoryNav = document.getElementById('categoryNav');
@@ -916,7 +977,6 @@
             
             // 分类过滤功能
             const categoryButtons = document.querySelectorAll('.category-btn');
-            const toolCards = document.querySelectorAll('.tool-card');
             
             categoryButtons.forEach(button => {
                 button.addEventListener('click', function() {
@@ -928,13 +988,7 @@
                     const category = this.getAttribute('data-category');
                     
                     // 显示或隐藏工具卡片
-                    toolCards.forEach(card => {
-                        if (category === 'all' || card.getAttribute('data-category') === category) {
-                            card.style.display = 'block';
-                        } else {
-                            card.style.display = 'none';
-                        }
-                    });
+                    filterToolsByCategory(category);
                     
                     // 在移动端选择后关闭菜单
                     if (window.innerWidth <= 768) {
@@ -956,6 +1010,7 @@
             
             function performSearch() {
                 const searchTerm = searchInput.value.toLowerCase();
+                const toolCards = document.querySelectorAll('.tool-card');
                 
                 toolCards.forEach(card => {
                     const title = card.querySelector('.tool-title').textContent.toLowerCase();
@@ -974,19 +1029,18 @@
             const toolFrame = document.getElementById('toolFrame');
             const toolDisplayTitle = document.getElementById('toolDisplayTitle');
             const closeTool = document.getElementById('closeTool');
-            const toolLinks = document.querySelectorAll('.tool-link');
             
             // 打开工具
-            toolLinks.forEach(link => {
-                link.addEventListener('click', function() {
-                    const toolUrl = this.getAttribute('data-tool');
-                    const toolTitle = this.getAttribute('data-title');
+            document.addEventListener('click', function(e) {
+                if (e.target.classList.contains('tool-link')) {
+                    const toolUrl = e.target.getAttribute('data-tool');
+                    const toolTitle = e.target.getAttribute('data-title');
                     
                     toolDisplayTitle.textContent = toolTitle;
                     toolFrame.src = toolUrl;
                     toolDisplay.style.display = 'flex';
                     document.body.style.overflow = 'hidden'; // 防止背景滚动
-                });
+                }
             });
             
             // 关闭工具
@@ -1004,7 +1058,113 @@
                     document.body.style.overflow = 'auto';
                 }
             });
+            
+            // 联系我们模态框功能
+            const contactModal = document.getElementById('contactModal');
+            const contactMainBtn = document.getElementById('contactMainBtn');
+            const footerContactLink = document.getElementById('footerContactLink');
+            const modalClose = document.getElementById('modalClose');
+            
+            // 打开模态框
+            function openContactModal() {
+                contactModal.style.display = 'flex';
+                document.body.style.overflow = 'hidden';
+            }
+            
+            // 关闭模态框
+            function closeContactModal() {
+                contactModal.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            }
+            
+            // 事件监听
+            contactMainBtn.addEventListener('click', openContactModal);
+            footerContactLink.addEventListener('click', function(e) {
+                e.preventDefault();
+                openContactModal();
+            });
+            modalClose.addEventListener('click', closeContactModal);
+            
+            // 点击模态框外部关闭
+            contactModal.addEventListener('click', function(e) {
+                if (e.target === contactModal) {
+                    closeContactModal();
+                }
+            });
+            
+            // ESC键关闭模态框
+            document.addEventListener('keydown', function(event) {
+                if (event.key === 'Escape' && contactModal.style.display === 'flex') {
+                    closeContactModal();
+                }
+            });
         });
+
+        // 渲染工具卡片函数
+        function renderTools() {
+            const toolGrid = document.getElementById('toolGrid');
+            const moreToolGrid = document.getElementById('moreToolGrid');
+            
+            // 清空现有内容
+            toolGrid.innerHTML = '';
+            moreToolGrid.innerHTML = '';
+            
+            // 分离推荐工具和普通工具
+            const featuredTools = toolsData.filter(tool => tool.featured);
+            const normalTools = toolsData.filter(tool => !tool.featured);
+            
+            // 渲染推荐工具
+            featuredTools.forEach(tool => {
+                toolGrid.appendChild(createToolCard(tool));
+            });
+            
+            // 渲染普通工具
+            normalTools.forEach(tool => {
+                moreToolGrid.appendChild(createToolCard(tool));
+            });
+        }
+        
+        // 创建工具卡片函数
+        function createToolCard(tool) {
+            const card = document.createElement('div');
+            card.className = 'tool-card';
+            card.setAttribute('data-category', tool.category);
+            
+            let badgeHtml = '';
+            if (tool.badge) {
+                badgeHtml = `<div class="tool-badge">${tool.badge}</div>`;
+            }
+            
+            card.innerHTML = `
+                ${badgeHtml}
+                <div class="tool-image">
+                    <img src="${tool.image}" alt="${tool.title}">
+                </div>
+                <div class="tool-content">
+                    <h3 class="tool-title">${tool.title}</h3>
+                    <p class="tool-desc">${tool.description}</p>
+                    <div class="tool-meta">
+                        <span>使用次数: ${tool.uses.toLocaleString()}</span>
+                    </div>
+                    <button class="tool-link" data-tool="${tool.link}" data-title="${tool.title}">使用工具</button>
+                </div>
+            `;
+            
+            return card;
+        }
+        
+        // 按分类过滤工具函数
+        function filterToolsByCategory(category) {
+            const toolCards = document.querySelectorAll('.tool-card');
+            
+            toolCards.forEach(card => {
+                if (category === 'all' || card.getAttribute('data-category') === category) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
     </script>
 </body>
 </html>
