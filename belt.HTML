@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTD皮带长度与齿数计算器</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7f9;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        
+        header {
+            background: #2c3e50;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        h1 {
+            margin-bottom: 10px;
+        }
+        
+        .description {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+        
+        .main-content {
+            display: flex;
+            flex-wrap: wrap;
+            padding: 20px;
+        }
+        
+        .input-section {
+            flex: 1;
+            min-width: 300px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            margin-right: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .result-section {
+            flex: 1;
+            min-width: 300px;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            border-left: 4px solid #3498db;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+        
+        input, select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        
+        input:focus, select:focus {
+            outline: none;
+            border-color: #3498db;
+            box-shadow: 0 0 5px rgba(52, 152, 219, 0.5);
+        }
+        
+        button {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            width: 100%;
+            transition: background 0.3s;
+        }
+        
+        button:hover {
+            background: #2980b9;
+        }
+        
+        .result-item {
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .result-item:last-child {
+            border-bottom: none;
+        }
+        
+        .result-label {
+            font-weight: 600;
+            color: #2c3e50;
+        }
+        
+        .result-value {
+            font-size: 18px;
+            color: #2c3e50;
+            margin-top: 5px;
+        }
+        
+        .warning {
+            background: #fff3cd;
+            color: #856404;
+            padding: 10px;
+            border-radius: 4px;
+            margin-top: 15px;
+            border-left: 4px solid #ffc107;
+        }
+        
+        .note {
+            background: #d1ecf1;
+            color: #0c5460;
+            padding: 10px;
+            border-radius: 4px;
+            margin-top: 15px;
+            border-left: 4px solid #17a2b8;
+        }
+        
+        .ad-container {
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            color: white;
+            padding: 25px;
+            text-align: center;
+            margin: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .ad-title {
+            font-size: 22px;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+        
+        .ad-description {
+            margin-bottom: 15px;
+            opacity: 0.9;
+        }
+        
+        .ad-button {
+            display: inline-block;
+            background: white;
+            color: #2575fc;
+            padding: 10px 20px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: bold;
+            margin-top: 10px;
+            transition: transform 0.3s;
+        }
+        
+        .ad-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: #6c757d;
+            font-size: 14px;
+        }
+        
+        @media (max-width: 768px) {
+            .main-content {
+                flex-direction: column;
+            }
+            
+            .input-section {
+                margin-right: 0;
+            }
+            
+            .ad-container {
+                margin: 10px;
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>HTD皮带长度与齿数计算器</h1>
+            <p class="description">根据皮带规格和轮齿参数，计算同步皮带的理论节线长度和标准齿数</p>
+        </header>
+        
+        <div class="main-content">
+            <div class="input-section">
+                <div class="form-group">
+                    <label for="pitch">皮带节距 (毫米)</label>
+                    <select id="pitch">
+                        <option value="8">8M (童车系列)</option>
+                        <option value="10">10M (少年车系列)</option>
+                        <option value="11" selected>11M (成人车系列)</option>
+                        <option value="14">14M</option>
+                        <option value="5">5M</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="driver_teeth">主动轮齿数</label>
+                    <input type="number" id="driver_teeth" min="1" value="24">
+                </div>
+                
+                <div class="form-group">
+                    <label for="driven_teeth">从动轮齿数</label>
+                    <input type="number" id="driven_teeth" min="1" value="50">
+                </div>
+                
+                <div class="form-group">
+                    <label for="center_distance">理论中心距 (毫米)</label>
+                    <input type="number" id="center_distance" min="1" value="475">
+                </div>
+                
+                <button id="calculate-btn">计算</button>
+                
+                <div class="note">
+                    <p><strong>提示：</strong>所有输入值必须为正数，齿数必须为整数。</p>
+                </div>
+            </div>
+            
+            <div class="result-section">
+                <h2>计算结果</h2>
+                
+                <div class="result-item">
+                    <div class="result-label">计算节线长度</div>
+                    <div class="result-value" id="calculated-length">-</div>
+                </div>
+                
+                <div class="result-item">
+                    <div class="result-label">计算所需齿数</div>
+                    <div class="result-value" id="calculated-teeth">-</div>
+                </div>
+                
+                <div class="result-item">
+                    <div class="result-label">推荐标准齿数</div>
+                    <div class="result-value" id="standard-teeth">-</div>
+                </div>
+                
+                <div class="result-item">
+                    <div class="result-label">标准皮带型号</div>
+                    <div class="result-value" id="belt-type">-</div>
+                </div>
+                
+                <div class="result-item">
+                    <div class="result-label">皮带周长</div>
+                    <div class="result-value" id="belt-circumference">-</div>
+                </div>
+                
+                <div class="result-item">
+                    <div class="result-label">中心距调整建议</div>
+                    <div id="adjustment-note" class="result-value">-</div>
+                </div>
+                
+                <div id="warning-area"></div>
+            </div>
+        </div>
+        
+        <!-- 广告位 -->
+        <div class="ad-container">
+            <div class="ad-title">高品质同步皮带供应商</div>
+            <div class="ad-description">我们提供全系列HTD同步皮带，质量可靠，经久耐用</div>
+            <div class="ad-description">免费样品提供 | 快速交货 | 专业技术支持</div>
+            <a href="#" class="ad-button">立即咨询</a>
+        </div>
+        
+        <footer>
+            <p>注意：最终采购前，仍建议对照MISUMI、Gates等供应商的官方产品目录进行最终确认。</p>
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const calculateBtn = document.getElementById('calculate-btn');
+            calculateBtn.addEventListener('click', calculateBelt);
+            
+            // 初始计算一次
+            calculateBelt();
+            
+            function calculateBelt() {
+                // 获取输入值
+                const pitch = parseFloat(document.getElementById('pitch').value);
+                const driverTeeth = parseInt(document.getElementById('driver_teeth').value);
+                const drivenTeeth = parseInt(document.getElementById('driven_teeth').value);
+                const centerDistance = parseFloat(document.getElementById('center_distance').value);
+                
+                // 验证输入
+                if (isNaN(pitch) || isNaN(driverTeeth) || isNaN(drivenTeeth) || isNaN(centerDistance) ||
+                    pitch <= 0 || driverTeeth <= 0 || drivenTeeth <= 0 || centerDistance <= 0) {
+                    alert('所有输入值必须为正数！');
+                    return;
+                }
+                
+                // 计算带轮节圆直径
+                const π = Math.PI;
+                const drivenPitchDia = (drivenTeeth * pitch) / π;
+                const driverPitchDia = (driverTeeth * pitch) / π;
+                
+                // 计算皮带节线长度
+                const L = (2 * centerDistance) + 
+                         (π/2 * (drivenPitchDia + driverPitchDia)) + 
+                         (Math.pow(drivenPitchDia - driverPitchDia, 2) / (4 * centerDistance));
+                
+                // 计算所需皮带齿数
+                const beltTeethCalculated = L / pitch;
+                
+                // 确定标准皮带齿数
+                const beltTeethStandard = Math.round(beltTeethCalculated);
+                
+                // 计算皮带周长
+                const beltCircumference = beltTeethStandard * pitch;
+                
+                // 反算实际中心距（近似值）
+                const adjustedCenterDistance = centerDistance + ((beltTeethStandard - beltTeethCalculated) * pitch) / 2;
+                
+                // 更新结果显示
+                document.getElementById('calculated-length').textContent = L.toFixed(2) + ' mm';
+                document.getElementById('calculated-teeth').textContent = beltTeethCalculated.toFixed(2) + ' T';
+                document.getElementById('standard-teeth').textContent = beltTeethStandard + ' T';
+                document.getElementById('belt-type').textContent = pitch + 'M-' + beltTeethStandard;
+                document.getElementById('belt-circumference').textContent = beltCircumference + ' mm (' + pitch + ' × ' + beltTeethStandard + ')';
+                
+                // 生成调整建议
+                let adjustmentNote = '';
+                if (beltTeethStandard > beltTeethCalculated) {
+                    adjustmentNote = `您需采购 ${pitch}M-${beltTeethStandard} 皮带。理论中心距 ${centerDistance}mm 可能需略微增大以适应 ${beltTeethStandard} 齿皮带，建议设计预留±5mm调整量。`;
+                } else if (beltTeethStandard < beltTeethCalculated) {
+                    adjustmentNote = `您需采购 ${pitch}M-${beltTeethStandard} 皮带。理论中心距 ${centerDistance}mm 可能需略微减小以适应 ${beltTeethStandard} 齿皮带，建议设计预留±5mm调整量。`;
+                } else {
+                    adjustmentNote = `您需采购 ${pitch}M-${beltTeethStandard} 皮带。理论中心距 ${centerDistance}mm 与皮带完美匹配，建议设计预留±3mm调整量。`;
+                }
+                
+                document.getElementById('adjustment-note').textContent = adjustmentNote;
+                
+                // 检查包角并显示警告
+                const wrapAngle = calculateWrapAngle(drivenPitchDia, driverPitchDia, centerDistance);
+                displayWrapAngleWarning(wrapAngle);
+            }
+            
+            function calculateWrapAngle(drivenDia, driverDia, centerDistance) {
+                // 计算小带轮包角（弧度）
+                const angleRad = Math.PI - 2 * Math.asin((drivenDia - driverDia) / (2 * centerDistance));
+                // 转换为角度
+                return angleRad * (180 / Math.PI);
+            }
+            
+            function displayWrapAngleWarning(wrapAngle) {
+                const warningArea = document.getElementById('warning-area');
+                warningArea.innerHTML = '';
+                
+                if (wrapAngle < 120) {
+                    const warning = document.createElement('div');
+                    warning.className = 'warning';
+                    warning.innerHTML = `<strong>警告：小带轮包角较小（${wrapAngle.toFixed(1)}°）</strong><br>
+                                        包角小于120°有跳齿风险，建议增加中心距或使用张紧轮。`;
+                    warningArea.appendChild(warning);
+                }
+            }
+        });
+    </script>
+</body>
+</html>
